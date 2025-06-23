@@ -1,4 +1,4 @@
-package com.MyCommunity.VO;
+package com.NJUCommunity.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
