@@ -11,9 +11,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private LoginInterceptor loginInterceptor;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -40,5 +48,14 @@ public class SecurityConfig  {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
+    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/**")  // 拦截所有路径
+                .excludePathPatterns(
+                        "/user/login",   // 登录接口
+                        "/user/register" // 注册接口
+                );
     }
 }

@@ -5,6 +5,7 @@ import com.NJUCommunity.Repository.UserRepository;
 import com.NJUCommunity.Service.UserService;
 import com.NJUCommunity.VO.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.slf4j.LoggerFactory;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserRepository userRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Override
@@ -26,8 +29,9 @@ public class UserServiceImpl implements UserService {
                 return "该手机号已注册";
             } else {
                 new_user = user.toPO();
+                new_user.setPassword(passwordEncoder.encode(user.getPassword())); // 密码加密
+                userRepository.save(new_user);
             }
-            userRepository.save(new_user);
             return "注册成功";
         }catch (Exception e) {
             logger.error(e.getMessage());

@@ -16,6 +16,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
     @PostMapping("/register")
     public Response<String> register(@Valid @RequestBody UserVO user) {
         return Response.buildSuccess(userService.register(user));
