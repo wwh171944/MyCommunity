@@ -52,6 +52,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
+                .order(1)
                 .addPathPatterns("/**")  // 拦截所有路径
                 .excludePathPatterns(
                         "/user/login",   // 登录接口

@@ -6,4 +6,5 @@ public interface UserService {
     String register(UserVO user);
     String login(UserVO user);
     UserVO getUser(String token) throws Exception;
+    String delete(String token) throws Exception;
 }

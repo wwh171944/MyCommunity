@@ -28,4 +28,8 @@ public class UserController {
     public Response<UserVO> getUser(@RequestHeader("token") String token) throws Exception {
         return Response.buildSuccess(userService.getUser(token));
     }
+    @DeleteMapping("/delete")
+    public Response<String> delete(@RequestHeader("token") String token) throws Exception {
+        return Response.buildSuccess(userService.delete(token));
+    }
 }

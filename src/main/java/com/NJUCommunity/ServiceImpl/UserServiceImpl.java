@@ -69,4 +69,14 @@ public class UserServiceImpl implements UserService {
         }
         return user.toVO();
     }
+
+    @Override
+    public String delete(String token) throws Exception {
+        UserPO user = tokenUtil.getUser(token);
+        if (user == null) {
+            throw CommunityException.userNotFound();
+        }
+        userRepository.delete(user);
+        return "删除成功";
+    }
 }
