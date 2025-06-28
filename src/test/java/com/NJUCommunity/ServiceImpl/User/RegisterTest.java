@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -19,6 +20,9 @@ class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -27,14 +31,16 @@ class UserServiceImplTest {
         // Arrange
         UserVO userVO = new UserVO();
         userVO.setPhone("13812345678");
+        userVO.setPassword("password");
         when(userRepository.findByPhone("13812345678")).thenReturn(null);
-
+        when(passwordEncoder.encode("password")).thenReturn("password");
         // Act
         String result = userService.register(userVO);
 
         // Assert
         assertEquals("注册成功", result);
         verify(userRepository, times(1)).save(any(UserPO.class));
+        verify(passwordEncoder, times(1)).encode("password");
     }
 
     @Test

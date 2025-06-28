@@ -55,7 +55,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")  // 拦截所有路径
                 .excludePathPatterns(
                         "/user/login",   // 登录接口
-                        "/user/register" // 注册接口
+                        "/user/register"// 注册接口
                 );
     }
 }
